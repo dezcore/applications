@@ -7,7 +7,7 @@ COPY . .
 
 FROM base as test
 EXPOSE 80
-CMD ["npm", "run", "test"]
+RUN npm run test
 
 FROM base as dev
 EXPOSE 80
