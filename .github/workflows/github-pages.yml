@@ -9,7 +9,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Generate static VuePress files
+    - name: Generate static VueJs files
       uses: actions/setup-node@v2
       with:
         node-version: '16'
@@ -18,7 +18,7 @@ jobs:
 
     - name: Init new repo in dist folder and commit generated files
       run: |
-        cd docs/.vuepress/dist
+        cd /dist
         git init
         git add -A
         git config --local user.email "action@github.com"
@@ -28,7 +28,7 @@ jobs:
     - name: Force push to destination branch
       uses: ad-m/github-push-action@v0.5.0
       with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
+        github_token: ${{ secrets.ACCESS_TOKEN }}
         branch: gh-pages
         force: true
-        directory: ./docs/.vuepress/dist
+        directory: ./dist
