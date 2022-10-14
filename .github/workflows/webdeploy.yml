@@ -1,25 +1,31 @@
-name: CI
+name: AutomaticHost
 on:
   push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+    branches: [ dev ]
     
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
     - uses: actions/checkout@v2
     - uses: actions/setup-node@v1
       with:
         node-version: '12.x'
-    - run: npm install
-    - run: npm run build
-    
-    - name: Deploy 🚀
-      uses: dezcore/applications@v1.0.0
+    - run:  | 
+        npm install
+        npm run build
+        
+    - run: |
+        git config --local user.email "dese_kande@hotmail.fr"
+        git config --local user.name "dezcore"
+        git checkout --orphan gh-pages
+        git reset
+        git add dist/* -f
+        git mv dist/* ./ -k
+        git commit -m "Update hosted version"
+        
+    - uses: ad-m/github-push-action@master
       with:
-          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-          BRANCH: apps # The branch the action should deploy to.
-          FOLDER: dist # The folder the action should deploy.
+        github_token: ${{ secrets.ACCESS_TOKEN }}
+        force: true
+        branch: gh-pages
