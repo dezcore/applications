@@ -29,6 +29,6 @@ jobs:
       uses: ad-m/github-push-action@master
       with:
         github_token: ${{ secrets.ACCESS_TOKEN }}
-        branch: gh-pages
+        branch: gui-dev #gui-dev, gui-prod
         force: true
         directory: ./dist
